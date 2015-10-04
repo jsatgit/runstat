@@ -1,0 +1,9 @@
+{
+  "generator-mocha": {},
+  "generator-react-webpack": {
+    "app-name": "runstatWeb",
+    "architecture": "flux",
+    "styles-language": "sass",
+    "component-suffix": "js"
+  }
+}
