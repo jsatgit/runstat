@@ -6,13 +6,15 @@ var React = require('react/addons');
 require('normalize.css');
 require('../styles/main.css');
 
-//var imageURL = require('../images/yeoman.png');
+var Fileinput = require('./fileinput.js');
+var Search = require('./search.js');
 
 var RunstatWebApp = React.createClass({
   render: function() {
     return (
       <div className="main">
-        Hello World
+        <Fileinput />
+        <Search />
       </div>
     );
   }
