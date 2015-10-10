@@ -7,7 +7,28 @@ var d3 = require('d3');
 require('normalize.css');
 require('../styles/main.css');
 
+var RunstatStore = require('../stores/runstatStore');
+var RunstatConstants = require('../constants/runstatConstants');
+
 var Graph = React.createClass({
+  getInitialState: function() {
+    return {
+      graphData: undefined
+    };
+  },
+
+  componentDidMount: function() {
+    RunstatStore.on(RunstatConstants.GRAPH_CHANGE_EVENT, this.onStoreChange);
+  },
+
+  componentWillUnmount: function() {
+    RunstatStore.removeListener(RunstatConstants.GRAPH_CHANGE_EVENT, this.onStoreChange);
+  },
+
+  onStoreChange: function() {
+    this.setState({graphData: RunstatStore.getGraphData()});
+  },
+
   componentDidUpdate: function() {
     var margin = {top: 20, right: 20, bottom: 50, left: 100},
         width = 1100 - margin.left - margin.right,
@@ -40,7 +61,7 @@ var Graph = React.createClass({
         .append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    var data = _.map(this.props.data, function(time, place) {
+    var data = _.map(this.state.graphData, function(time, place) {
       return {
         place: place,
         time: parseTime(time)

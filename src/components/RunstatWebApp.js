@@ -6,8 +6,12 @@ var React = require('react/addons');
 require('normalize.css');
 require('../styles/main.css');
 
-var Fileinput = require('./fileinput.js');
-var Search = require('./search.js');
+var Fileinput = require('./fileinput');
+var Search = require('./search');
+var Graph = require('./graph');
+var Results = require('./results');
+
+require('../stores/runstatStore');
 
 var RunstatWebApp = React.createClass({
   render: function() {
@@ -15,6 +19,8 @@ var RunstatWebApp = React.createClass({
       <div className="main">
         <Fileinput />
         <Search />
+        <Results />
+        <Graph />
       </div>
     );
   }
