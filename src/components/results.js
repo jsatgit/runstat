@@ -1,6 +1,8 @@
 'use strict';
 
 var React = require('react/addons');
+var Promise = require('bluebird');
+
 var RunstatConstants = require('../constants/runstatConstants');
 var RunstatStore = require('../stores/runstatStore');
 
@@ -11,16 +13,23 @@ var Results = React.createClass({
     };
   },
 
+  applyFilter: function(searchText, graphData) {
+    return new Promise(function(resolve) {
+      var pattern = new RegExp('.*' + searchText.replace(/[^0-9]/g, '').split('').join('.*') + '.*');
+      var filteredData = _.filter(graphData, function(times) {
+        return pattern.test(times);
+      });
+      resolve(filteredData);
+    });
+  },
 
   onSearchChange: function() {
-     //var results = this.refs.results.getDOMNode();
-     var searchText = RunstatStore.getSearchText();
-     var graphData = RunstatStore.getGraphData();
-     var pattern = new RegExp('.*' + searchText.replace(/[^0-9]/g, '').split('').join('.*') + '.*');
-     var filtered = _.filter(graphData, function(times) {
-       return pattern.test(times);
-     });
-     this.setState({list: filtered});
+    var self = this;
+    var searchText = RunstatStore.getSearchText();
+    var graphData = RunstatStore.getGraphData();
+    this.applyFilter(searchText, graphData).then(function(filteredData) {
+      self.setState({list: filteredData});
+    });
   },
 
   componentDidMount: function() {
