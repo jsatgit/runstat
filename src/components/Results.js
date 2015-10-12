@@ -26,14 +26,16 @@ var Results = React.createClass({
 
   render: function() {
     var self = this;
+    var numResultsVisible = Math.min(this.state.list.length, 10);
     return (
       <div className={'col-xs-' + this.props.col}>
+        <div>Showing {numResultsVisible} out of {this.state.list.length} results.</div>
         <ul className='list-group' ref='results'>
           {_(this.state.list).map(function(runner, index) {
             return (
               <li className='list-group-item' key={index}>{runner[self.props.stat]}</li>
             );
-          }).take(Math.min(this.state.list.length, 10)).value()}
+          }).take(numResultsVisible).value()}
         </ul>
       </div>
     );
