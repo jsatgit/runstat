@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react/addons');
+var $ = require('jquery');
 
 // CSS
 require('normalize.css');
@@ -15,6 +16,10 @@ var Results = require('./Results');
 require('../stores/RunstatStore');
 
 var RunstatWebApp = React.createClass({
+  componentWillMount: function() {
+    $(document.body).removeClass('splash');
+  },
+
   componentDidMount: function() {
     Filter.init();
   },
