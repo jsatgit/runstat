@@ -34,3 +34,6 @@ dist
 
 # Vim
 *.swp
+
+# Data
+data/
