@@ -29,11 +29,11 @@ var Results = React.createClass({
     return (
       <div className={'col-xs-' + this.props.col}>
         <ul className='list-group' ref='results'>
-          {_.map(this.state.list, function(runner, index) {
+          {_(this.state.list).map(function(runner, index) {
             return (
               <li className='list-group-item' key={index}>{runner[self.props.stat]}</li>
             );
-          })}
+          }).take(Math.min(this.state.list.length, 10)).value()}
         </ul>
       </div>
     );
