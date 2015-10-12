@@ -2,6 +2,7 @@
 
 var React = require('react/addons');
 var d3 = require('d3');
+var moment = require('moment');
 
 // CSS
 require('normalize.css');
@@ -30,9 +31,9 @@ var Graph = React.createClass({
   },
 
   componentDidUpdate: function() {
-    var margin = {top: 20, right: 20, bottom: 50, left: 100},
-        width = 1100 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+    var margin = {top: 20, right: 20, bottom: 25, left: 60},
+        width = this.props.width - margin.left - margin.right,
+        height = this.props.height - margin.top - margin.bottom;
 
     var parseTime = d3.time.format('%H:%M:%S').parse;
 
@@ -48,6 +49,9 @@ var Graph = React.createClass({
 
     var yAxis = d3.svg.axis()
         .scale(y)
+        .tickFormat(function(d) {
+          return moment(d).format('h:mm:ss');
+        })
         .orient('left');
 
     var line = d3.svg.line()
@@ -61,10 +65,10 @@ var Graph = React.createClass({
         .append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    var data = _.map(this.state.graphData, function(time, place) {
+    var data = _.map(this.state.graphData, function(runner) {
       return {
-        place: place,
-        time: parseTime(time)
+        place: runner.PLACE,
+        time: parseTime(runner.TIME)
       };
     });
 
@@ -93,7 +97,9 @@ var Graph = React.createClass({
 
   render: function() {
     return (
-      <div ref='graph'></div>
+      <div className={'col-xs-' + this.props.col}>
+        <div ref='graph'></div>
+      </div>
     );
   }
 });

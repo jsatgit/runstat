@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react/addons');
-var Promise = require('bluebird');
 
 var RunstatConstants = require('../constants/runstatConstants');
 var RunstatStore = require('../stores/runstatStore');
@@ -13,42 +12,30 @@ var Results = React.createClass({
     };
   },
 
-  applyFilter: function(searchText, graphData) {
-    return new Promise(function(resolve) {
-      var pattern = new RegExp('.*' + searchText.replace(/[^0-9]/g, '').split('').join('.*') + '.*');
-      var filteredData = _.filter(graphData, function(times) {
-        return pattern.test(times);
-      });
-      resolve(filteredData);
-    });
-  },
-
-  onSearchChange: function() {
-    var self = this;
-    var searchText = RunstatStore.getSearchText();
-    var graphData = RunstatStore.getGraphData();
-    this.applyFilter(searchText, graphData).then(function(filteredData) {
-      self.setState({list: filteredData});
-    });
+  onFilterChange: function() {
+    this.setState({list: RunstatStore.getFilteredData()});
   },
 
   componentDidMount: function() {
-    RunstatStore.on(RunstatConstants.SEARCH_CHANGE_EVENT, this.onSearchChange);
+    RunstatStore.on(RunstatConstants.FILTER_CHANGE_EVENT, this.onFilterChange);
   },
 
   componentWillUnmount: function() {
-    RunstatStore.removeListener(RunstatConstants.SEARCH_CHANGE_EVENT, this.onSearchChange);
+    RunstatStore.removeListener(RunstatConstants.FILTER_CHANGE_EVENT, this.onFilterChange);
   },
 
   render: function() {
+    var self = this;
     return (
-      <ul ref='results'>
-        {_.map(this.state.list, function(time, index) {
-          return (
-            <li key={index}>{time}</li>
-          );
-        })}
-      </ul>
+      <div className={'col-xs-' + this.props.col}>
+        <ul className='list-group' ref='results'>
+          {_.map(this.state.list, function(runner, index) {
+            return (
+              <li className='list-group-item' key={index}>{runner[self.props.stat]}</li>
+            );
+          })}
+        </ul>
+      </div>
     );
   }
 });
