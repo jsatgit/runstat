@@ -50,3 +50,35 @@ body {
   cursor: inherit;
   display: block;
 }
+
+/* positioning */
+
+.vcentre {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+}
+
+.container-table {
+  display: table;
+}
+
+.vcentre-row {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+html, body, #content, .container {
+  height: 100%;
+}
+
+/* splash */
+
+.splash {
+  background: url(../images/splash.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+

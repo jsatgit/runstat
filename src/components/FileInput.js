@@ -54,7 +54,7 @@ var Fileinput = React.createClass({
 
   render: function() {
     return (
-      <div className={'col-xs-' + this.props.col + ' col-md-offset-' + this.props.offset}>
+      <div className={'col-xs-' + this.props.col + ' col-md-offset-' + this.props.offset + ' vcentre'}>
         <span className='btn btn-primary btn-file'>
           Browse <input ref='fileInput' type='file' onChange={this.onFilesSelected}/>
         </span>
