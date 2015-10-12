@@ -8,8 +8,8 @@ var moment = require('moment');
 require('normalize.css');
 require('../styles/main.css');
 
-var RunstatStore = require('../stores/runstatStore');
-var RunstatConstants = require('../constants/runstatConstants');
+var RunstatStore = require('../stores/RunstatStore');
+var RunstatConstants = require('../constants/RunstatConstants');
 
 var Graph = React.createClass({
   getInitialState: function() {

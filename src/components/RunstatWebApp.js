@@ -7,14 +7,14 @@ require('normalize.css');
 require('../styles/main.css');
 require('../../node_modules/bootstrap/dist/css/bootstrap.css');
 
-var Fileinput = require('./fileinput');
-var Results = require('./results');
-var Search = require('./search');
-var Graph = require('./graph');
-var RunstatConstants = require('../constants/runstatConstants');
-var Filter = require('./filter');
+var Fileinput = require('./FileInput');
+var Results = require('./Results');
+var Search = require('./Search');
+var Graph = require('./Graph');
+var RunstatConstants = require('../constants/RunstatConstants');
+var Filter = require('./Filter');
 
-require('../stores/runstatStore');
+require('../stores/RunstatStore');
 
 var RunstatWebApp = React.createClass({
   componentDidMount: function() {

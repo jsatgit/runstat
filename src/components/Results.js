@@ -2,8 +2,8 @@
 
 var React = require('react/addons');
 
-var RunstatConstants = require('../constants/runstatConstants');
-var RunstatStore = require('../stores/runstatStore');
+var RunstatConstants = require('../constants/RunstatConstants');
+var RunstatStore = require('../stores/RunstatStore');
 
 var Results = React.createClass({
   getInitialState: function() {

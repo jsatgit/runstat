@@ -1,5 +1,5 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
-var RunstatConstants = require('../constants/runstatConstants');
+var RunstatConstants = require('../constants/RunstatConstants');
 
 var RunstatActions = {
   updateText: function(text, stat) {

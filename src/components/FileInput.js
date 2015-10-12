@@ -3,8 +3,8 @@
 var React = require('react/addons');
 var _ = require('lodash');
 
-var RunstatActions = require('../actions/runstatActions');
-var RunstatConstants = require('../constants/runstatConstants');
+var RunstatActions = require('../actions/RunstatActions');
+var RunstatConstants = require('../constants/RunstatConstants');
 
 // CSS
 require('normalize.css');

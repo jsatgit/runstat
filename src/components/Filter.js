@@ -1,9 +1,9 @@
 var _ = require('lodash');
 var Promise = require('bluebird');
 
-var RunstatStore = require('../stores/runstatStore');
-var RunstatActions = require('../actions/runstatActions');
-var RunstatConstants = require('../constants/runstatConstants');
+var RunstatStore = require('../stores/RunstatStore');
+var RunstatActions = require('../actions/RunstatActions');
+var RunstatConstants = require('../constants/RunstatConstants');
 
 function getPattern(searchText) {
   return new RegExp('.*' + searchText.replace(/[^0-9:]/g, '').split('').join('.*') + '.*');

@@ -6,7 +6,7 @@ var React = require('react/addons');
 require('normalize.css');
 require('../styles/main.css');
 
-var RunstatActions = require('../actions/runstatActions');
+var RunstatActions = require('../actions/RunstatActions');
 
 var Search = React.createClass({
   onChange: function(event) {
