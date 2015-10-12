@@ -24,7 +24,7 @@
     "normalize.css": "~3.0.3",
     "object-assign": "^2.0.0",
     "react": "0.13.x",
-    "react-router": "0.13.x",
+    "react-router": "^1.0.0-rc2",
     "yo": "^1.4.8"
   },
   "devDependencies": {

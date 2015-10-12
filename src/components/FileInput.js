@@ -2,6 +2,7 @@
 
 var React = require('react/addons');
 var _ = require('lodash');
+var History = require('react-router').History;
 
 var RunstatActions = require('../actions/RunstatActions');
 var RunstatConstants = require('../constants/RunstatConstants');
@@ -11,6 +12,8 @@ require('normalize.css');
 require('../styles/main.css');
 
 var Fileinput = React.createClass({
+  mixins: [ History ],
+
   tokenizeLine: function(line) {
     return _.compact(line.split(' '));
   },
@@ -36,6 +39,7 @@ var Fileinput = React.createClass({
   },
 
   onFilesSelected: function() {
+    this.history.pushState(null, '/stats', null);
     var self = this;
     var fileInput = this.refs.fileInput.getDOMNode();
     var files = fileInput.files;
@@ -50,7 +54,7 @@ var Fileinput = React.createClass({
 
   render: function() {
     return (
-      <div className={'col-xs-' + this.props.col}>
+      <div className={'col-xs-' + this.props.col + ' col-md-offset-' + this.props.offset}>
         <span className='btn btn-primary btn-file'>
           Browse <input ref='fileInput' type='file' onChange={this.onFilesSelected}/>
         </span>

@@ -7,12 +7,10 @@ require('normalize.css');
 require('../styles/main.css');
 require('../../node_modules/bootstrap/dist/css/bootstrap.css');
 
-var Fileinput = require('./FileInput');
-var Results = require('./Results');
 var Search = require('./Search');
-var Graph = require('./Graph');
 var RunstatConstants = require('../constants/RunstatConstants');
 var Filter = require('./Filter');
+var Results = require('./Results');
 
 require('../stores/RunstatStore');
 
@@ -29,7 +27,6 @@ var RunstatWebApp = React.createClass({
     return (
       <div className='main'>
         <div className='row'>
-          <Fileinput col={2} />
           <Search col={2} stat={RunstatConstants.KM10} />
           <Search col={2} stat={RunstatConstants.KM21} />
           <Search col={2} stat={RunstatConstants.KM30} />
@@ -37,7 +34,6 @@ var RunstatWebApp = React.createClass({
           <Search col={2} stat={RunstatConstants.TIME} />
         </div>
         <div className='row'>
-          <Graph col={2} width={200} height={400} />
           <Results col={2} stat={RunstatConstants.KM10} />
           <Results col={2} stat={RunstatConstants.KM21} />
           <Results col={2} stat={RunstatConstants.KM30} />
