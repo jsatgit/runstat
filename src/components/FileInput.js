@@ -2,6 +2,7 @@
 
 var React = require('react/addons');
 var _ = require('lodash');
+var moment = require('moment');
 var History = require('react-router').History;
 
 var RunstatActions = require('../actions/RunstatActions');
@@ -16,6 +17,10 @@ var Fileinput = React.createClass({
 
   tokenizeLine: function(line) {
     return _.compact(line.split(' '));
+  },
+
+  toSecs: function(timeStr) {
+    return timeStr === '~' ? 0 : moment.duration(timeStr).asSeconds();
   },
 
   onFilesLoaded: function(reader) {
@@ -33,6 +38,12 @@ var Fileinput = React.createClass({
       runner[RunstatConstants.KM30] = tokenizedLine[11];
       runner[RunstatConstants.KM35] = tokenizedLine[12];
       runner[RunstatConstants.KM40] = tokenizedLine[13];
+      runner[RunstatConstants.KM10_S] = self.toSecs(runner[RunstatConstants.KM10]);
+      runner[RunstatConstants.KM21_S] = self.toSecs(runner[RunstatConstants.KM21]);
+      runner[RunstatConstants.KM30_S] = self.toSecs(runner[RunstatConstants.KM30]);
+      runner[RunstatConstants.KM35_S] = self.toSecs(runner[RunstatConstants.KM35]);
+      runner[RunstatConstants.KM40_S] = self.toSecs(runner[RunstatConstants.KM40]);
+      runner[RunstatConstants.TIME_S] = self.toSecs(runner[RunstatConstants.TIME]);
       return runner;
     });
     RunstatActions.updateGraphData(finishTimes);

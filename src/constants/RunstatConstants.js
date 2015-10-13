@@ -15,5 +15,10 @@ module.exports = keyMirror({
   KM21: null,
   KM30: null,
   KM35: null,
-  KM40: null
+  KM40: null,
+  KM10_S: null,
+  KM21_S: null,
+  KM30_S: null,
+  KM40_S: null,
+  TIME_S: null
 });

@@ -26,7 +26,7 @@ var Results = React.createClass({
 
   render: function() {
     var self = this;
-    var numResultsVisible = Math.min(this.state.list.length, 10);
+    var numResultsVisible = Math.min(this.state.list.length, 5);
     return (
       <div className={'col-xs-' + this.props.col}>
         <div>Showing {numResultsVisible} out of {this.state.list.length} results.</div>

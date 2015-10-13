@@ -12,6 +12,7 @@ var Search = require('./Search');
 var RunstatConstants = require('../constants/RunstatConstants');
 var Filter = require('./Filter');
 var Results = require('./Results');
+var Graph = require('./Graph');
 
 require('../stores/RunstatStore');
 
@@ -44,6 +45,9 @@ var RunstatWebApp = React.createClass({
           <Results col={2} stat={RunstatConstants.KM30} />
           <Results col={2} stat={RunstatConstants.KM40} />
           <Results col={2} stat={RunstatConstants.TIME} />
+        </div>
+        <div className='row'>
+          <Graph col={12} width={1200} height={300} />
         </div>
       </div>
     );

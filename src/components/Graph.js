@@ -3,6 +3,8 @@
 var React = require('react/addons');
 var d3 = require('d3');
 var moment = require('moment');
+require('moment-duration-format');
+var _ = require('lodash');
 
 // CSS
 require('normalize.css');
@@ -14,20 +16,51 @@ var RunstatConstants = require('../constants/RunstatConstants');
 var Graph = React.createClass({
   getInitialState: function() {
     return {
-      graphData: undefined
+      averages: undefined
     };
   },
 
   componentDidMount: function() {
-    RunstatStore.on(RunstatConstants.GRAPH_CHANGE_EVENT, this.onStoreChange);
+    RunstatStore.on(RunstatConstants.FILTER_CHANGE_EVENT, this.onFilterChange);
   },
 
   componentWillUnmount: function() {
-    RunstatStore.removeListener(RunstatConstants.GRAPH_CHANGE_EVENT, this.onStoreChange);
+    RunstatStore.removeListener(RunstatConstants.FILTER_CHANGE_EVENT, this.onFilterChange);
   },
 
-  onStoreChange: function() {
-    this.setState({graphData: RunstatStore.getGraphData()});
+  getXVals: function() {
+    var map = {};
+    map[RunstatConstants.KM10_S] = 10;
+    map[RunstatConstants.KM21_S] = 21;
+    map[RunstatConstants.KM30_S] = 30;
+    map[RunstatConstants.KM40_S] = 40;
+    map[RunstatConstants.TIME_S] = 42;
+    return map;
+  },
+
+  onFilterChange: function() {
+    var keys = [
+      RunstatConstants.KM10_S,
+      RunstatConstants.KM21_S,
+      RunstatConstants.KM30_S,
+      RunstatConstants.KM40_S,
+      RunstatConstants.TIME_S
+    ];
+    var initialSum = {};
+    _.each(keys, function(keyName) {
+      initialSum[keyName] = 0;
+    });
+    var filteredData = RunstatStore.getFilteredData();
+    var sum = _.reduce(filteredData, function(acc, runner) {
+      return _.mapValues(acc, function(time, key) {
+        return time + runner[key];
+      });
+    }, initialSum);
+
+    var averages = _.mapValues(sum, function(time) {
+      return Math.round(time / filteredData.length);
+    });
+    this.setState({averages: averages});
   },
 
   componentDidUpdate: function() {
@@ -35,12 +68,10 @@ var Graph = React.createClass({
         width = this.props.width - margin.left - margin.right,
         height = this.props.height - margin.top - margin.bottom;
 
-    var parseTime = d3.time.format('%H:%M:%S').parse;
-
     var x = d3.scale.linear()
         .range([0, width]);
 
-    var y = d3.time.scale()
+    var y = d3.scale.linear()
         .range([height, 0]);
 
     var xAxis = d3.svg.axis()
@@ -50,13 +81,15 @@ var Graph = React.createClass({
     var yAxis = d3.svg.axis()
         .scale(y)
         .tickFormat(function(d) {
-          return moment(d).format('h:mm:ss');
+          return moment.duration(d, 'seconds').format('h:mm:ss');
         })
         .orient('left');
 
     var line = d3.svg.line()
-        .x(function(d) { return x(d.place); })
-        .y(function(d) { return y(d.time); });
+        .x(function(d) { return x(d.xVal); })
+        .y(function(d) { return y(d.yVal); });
+
+    d3.select('svg').remove();
 
     var graph = this.refs.graph.getDOMNode();
     var svg = d3.select(graph).append('svg')
@@ -65,15 +98,18 @@ var Graph = React.createClass({
         .append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    var data = _.map(this.state.graphData, function(runner) {
+    var xVals = this.getXVals();
+    var data = _.map(this.state.averages, function(value, key) {
       return {
-        place: runner.PLACE,
-        time: parseTime(runner.TIME)
+        xVal: xVals[key],
+        yVal: value
       };
     });
+    data.unshift({xVal: 0, yVal: 0});
 
-    x.domain(d3.extent(data, function(d) { return d.place; }));
-    y.domain(d3.extent(data, function(d) { return d.time; }));
+
+    x.domain(d3.extent(data, function(d) { return d.xVal; }));
+    y.domain(d3.extent(data, function(d) { return d.yVal; }));
 
     svg.append('g')
       .attr('class', 'x axis')
