@@ -61,7 +61,7 @@ module.exports = {
       test: /\.sass/,
       loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded&indentedSyntax'
     }, {
-      test: /\.(png|jpg|woff|woff2)$/,
+      test: /\.(png|jpg|svg|ttf|woff|eot|woff2)$/,
       loader: 'url-loader?limit=8192'
     }]
   }
